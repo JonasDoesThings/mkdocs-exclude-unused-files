@@ -15,7 +15,7 @@ setup(
     long_description=(this_directory / "README.md").read_text(),
     long_description_content_type='text/markdown',
     keywords=['mkdocs', 'mkdocs-plugin'],
-    install_requires=['mkdocs'],
+    install_requires=['mkdocs', 'beautifulsoup4'],
 
     entry_points={
         'mkdocs.plugins': [
