@@ -1,0 +1,8 @@
+demo/
+.venv/
+*.egg-info/
+.idea/
+*.iml
+build/
+dist/
+.DS_Store
