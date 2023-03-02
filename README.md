@@ -1,7 +1,9 @@
 # MKDocs Exclude Unused (orphaned) Files
-A simple plugin for excluding files from being included in the mkdocs output if they are not referenced in other pages.
+A simple plugin for excluding files from being included in the mkdocs output if they are not referenced in other pages.  
 
 ## Instalation
+![pypi current version](https://img.shields.io/pypi/v/mkdocs-exclude-unused-files?style=flat-square)
+
 Run `pip install --upgrade mkdocs-exclude-unused-files`
 
 ## Configuration
