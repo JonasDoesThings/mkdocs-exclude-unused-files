@@ -21,7 +21,7 @@ class ExcludeUnusedFilesPluginConfig(mkdocs.config.base.Config):
     dry_run = mkdocs.config.config_options.Type(bool, default=False)
     silent = mkdocs.config.config_options.Type(bool, default=False)
     force_delete = mkdocs.config.config_options.Type(bool, default=False)
-    file_types_to_check = mkdocs.config.config_options.Type(list, default=["png", "jpg", "jpeg", "gif", "pdf", "ico"])
+    file_types_to_check = mkdocs.config.config_options.Type(list, default=["png", "jpg", "jpeg", "gif", "pdf", "ico", "drawio", "tif", "tiff", "zip", "rar", "ogg", "mp3", "mp4", "vtt ", "ogv", "mov", "svg", "pot", "potx", "ppsx", "ppt", "pptx", "xlt", "xltx", "xls", "xlsx", "doc", "docx", "dot", "dotx", "vst", "vstx", "vsd", "vsdx"])
     file_names_to_never_remove = mkdocs.config.config_options.Type(list, default=["favicon"])
     folders_to_never_remove_from = mkdocs.config.config_options.Type(list, default=["assets"])
 
@@ -56,11 +56,29 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
         # todo: allow configuring custom parsers
         # see https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-a-parser
         soup = BeautifulSoup(output, "html.parser")
-        for file in soup.find_all('img'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
+
+        # href
         for file in soup.find_all('a'):
             self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['href']))).resolve()))
+        for file in soup.find_all('area'):
+            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['href']))).resolve()))
+        for file in soup.find_all('link'):
+            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['href']))).resolve()))
+
+        # src
+        for file in soup.find_all('img'):
+            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
         for file in soup.find_all('video'):
+            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
+        for file in soup.find_all('audio'):
+            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
+        for file in soup.find_all('embed'):
+            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
+        for file in soup.find_all('iframe'):
+            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
+        for file in soup.find_all('source'):
+            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
+        for file in soup.find_all('track'):
             self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
 
         return output
