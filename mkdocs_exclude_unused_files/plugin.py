@@ -21,7 +21,7 @@ class ExcludeUnusedFilesPluginConfig(mkdocs.config.base.Config):
     dry_run = mkdocs.config.config_options.Type(bool, default=False)
     silent = mkdocs.config.config_options.Type(bool, default=False)
     force_delete = mkdocs.config.config_options.Type(bool, default=False)
-    file_types_to_check = mkdocs.config.config_options.Type(list, default=["png", "jpg", "jpeg", "gif", "pdf", "ico", "drawio", "tif", "tiff", "zip", "rar", "ogg", "mp3", "mp4", "vtt ", "ogv", "mov", "svg", "pot", "potx", "ppsx", "ppt", "pptx", "xlt", "xltx", "xls", "xlsx", "doc", "docx", "dot", "dotx", "vst", "vstx", "vsd", "vsdx"])
+    file_types_to_check = mkdocs.config.config_options.Type(list, default=["png", "jpg", "jpeg", "gif", "pdf", "ico", "drawio", "tif", "tiff", "zip", "rar", "tar.gz", "ogg", "mp3", "mp4", "vtt ", "ogv", "mov", "svg", "pot", "potx", "ppsx", "ppt", "pptx", "xlt", "xltx", "xls", "xlsx", "doc", "docx", "dot", "dotx", "vst", "vstx", "vsd", "vsdx"])
     file_names_to_never_remove = mkdocs.config.config_options.Type(list, default=["favicon"])
     folders_to_never_remove_from = mkdocs.config.config_options.Type(list, default=["assets"])
 
