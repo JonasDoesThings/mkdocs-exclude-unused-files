@@ -6,7 +6,6 @@ from os import path
 from bs4 import BeautifulSoup
 from pathlib import Path
 from urllib.parse import unquote
-from collections import defaultdict
 
 import mkdocs.config
 import mkdocs.config.config_options
@@ -58,7 +57,7 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
         # see https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-a-parser
         soup = BeautifulSoup(output, "html.parser")
 
-        html_tags = defaultdict(dict)
+        html_tags = {}
         html_tags["a"] = "href"
         html_tags["area"] = "href"
         html_tags["link"] = "href"
