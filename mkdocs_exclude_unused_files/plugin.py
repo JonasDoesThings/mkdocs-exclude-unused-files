@@ -6,6 +6,7 @@ from os import path
 from bs4 import BeautifulSoup
 from pathlib import Path
 from urllib.parse import unquote
+from collections import defaultdict
 
 import mkdocs.config
 import mkdocs.config.config_options
@@ -57,29 +58,21 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
         # see https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-a-parser
         soup = BeautifulSoup(output, "html.parser")
 
-        # href
-        for file in soup.find_all('a'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['href']))).resolve()))
-        for file in soup.find_all('area'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['href']))).resolve()))
-        for file in soup.find_all('link'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['href']))).resolve()))
+        html_tags = defaultdict(dict)
+        html_tags["a"] = "href"
+        html_tags["area"] = "href"
+        html_tags["link"] = "href"
+        html_tags["img"] = "src"
+        html_tags["video"] = "src"
+        html_tags["audio"] = "src"
+        html_tags["embed"] = "src"
+        html_tags["iframe"] = "src"
+        html_tags["source"] = "src"
+        html_tags["track"] = "src"
 
-        # src
-        for file in soup.find_all('img'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
-        for file in soup.find_all('video'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
-        for file in soup.find_all('audio'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
-        for file in soup.find_all('embed'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
-        for file in soup.find_all('iframe'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
-        for file in soup.find_all('source'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
-        for file in soup.find_all('track'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
+        for tag, attr in html_tags.items():
+            for file in soup.find_all(tag, {attr: True}):
+                self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file[attr]))).resolve()))
 
         return output
 
