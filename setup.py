@@ -5,7 +5,7 @@ this_directory = Path(__file__).parent
 
 setup(
     name='mkdocs-exclude-unused-files',
-    version='1.0.0',
+    version='1.1.0',
     packages=['mkdocs_exclude_unused_files'],
     url='https://github.com/JonasDoesThings/mkdocs-exclude-unused-files',
     license='MIT',
