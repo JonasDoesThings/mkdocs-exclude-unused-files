@@ -21,7 +21,7 @@ class ExcludeUnusedFilesPluginConfig(mkdocs.config.base.Config):
     dry_run = mkdocs.config.config_options.Type(bool, default=False)
     silent = mkdocs.config.config_options.Type(bool, default=False)
     force_delete = mkdocs.config.config_options.Type(bool, default=False)
-    file_types_to_check = mkdocs.config.config_options.Type(list, default=["png", "jpg", "jpeg", "gif", "pdf", "ico"])
+    file_types_to_check = mkdocs.config.config_options.Type(list, default=["png", "jpg", "jpeg", "gif", "pdf", "ico", "drawio", "tif", "tiff", "zip", "rar", "tar.gz", "ogg", "mp3", "mp4", "vtt ", "ogv", "mov", "svg", "pot", "potx", "ppsx", "ppt", "pptx", "xlt", "xltx", "xls", "xlsx", "doc", "docx", "dot", "dotx", "vst", "vstx", "vsd", "vsdx"])
     file_names_to_never_remove = mkdocs.config.config_options.Type(list, default=["favicon"])
     folders_to_never_remove_from = mkdocs.config.config_options.Type(list, default=["assets"])
 
@@ -56,12 +56,22 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
         # todo: allow configuring custom parsers
         # see https://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-a-parser
         soup = BeautifulSoup(output, "html.parser")
-        for file in soup.find_all('img'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
-        for file in soup.find_all('a'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['href']))).resolve()))
-        for file in soup.find_all('video'):
-            self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file['src']))).resolve()))
+
+        html_tags = {}
+        html_tags["a"] = "href"
+        html_tags["area"] = "href"
+        html_tags["link"] = "href"
+        html_tags["img"] = "src"
+        html_tags["video"] = "src"
+        html_tags["audio"] = "src"
+        html_tags["embed"] = "src"
+        html_tags["iframe"] = "src"
+        html_tags["source"] = "src"
+        html_tags["track"] = "src"
+
+        for tag, attr in html_tags.items():
+            for file in soup.find_all(tag, {attr: True}):
+                self.asset_files.discard(str(Path(path.join(path.dirname(page.file.abs_dest_path), unquote(file[attr]))).resolve()))
 
         return output
 
