@@ -1,0 +1,86 @@
+default_install_hook_types:
+  - pre-commit
+
+default_stages: [commit, push]
+
+repos:
+  - repo: local
+    hooks:
+      - id: autoupdate
+        name: pre-commit autoupdate
+        entry: pre-commit autoupdate
+        language: system
+        pass_filenames: false
+        # files: .pre-commit-config.yaml
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-symlinks
+      - id: trailing-whitespace
+      - id: check-case-conflict
+      - id: check-toml
+      - id: check-json
+        exclude: ".vscode/.*"
+      - id: pretty-format-json
+        args:
+          - "--autofix"
+          - "--no-sort-keys"
+        exclude: ".vscode/.*"
+      - id: end-of-file-fixer
+      - id: no-commit-to-branch
+      - id: check-executables-have-shebangs
+      - id: check-vcs-permalinks
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.16.3
+    hooks:
+      - id: gitleaks
+
+  - repo: local
+    hooks:
+      - id: pyupgrade
+        name: pyupgrade
+        entry: poetry run pyupgrade --py38-plus
+        types: [python]
+        language: system
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: poetry run mypy --config-file pyproject.toml
+        types: [python]
+        language: system
+
+  - repo: local
+    hooks:
+      - id: isort
+        name: isort
+        entry: poetry run isort --settings-path pyproject.toml
+        types: [python]
+        language: system
+
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: poetry run black --config pyproject.toml
+        types: [python]
+        language: system
+
+  - repo: local
+    hooks:
+      - id: flake8
+        name: flake8
+        entry: poetry run flake8
+        types: [python]
+        language: system
+
+  - repo: local
+    hooks:
+      - id: bandit
+        name: bandit
+        entry: poetry run bandit --configfile pyproject.toml
+        types: [python]
+        language: system
