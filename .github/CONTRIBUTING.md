@@ -2,7 +2,7 @@
 
 To contribute, please follow these steps:
 
-1. Fork the project name repository on GitHub.
+1. Fork the `mkdocs-exclude-unused-files` repository on GitHub.
 1. Create a new branch for your feature or bug fix.
 1. Setup development environment.
 
