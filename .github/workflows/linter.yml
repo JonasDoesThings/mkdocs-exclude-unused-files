@@ -3,8 +3,8 @@ name: Linter
 
 on:
   pull_request:
-    # branches:
-    #   - main
+    branches:
+      - main
     types:
       - opened
       - ready_for_review
@@ -56,7 +56,7 @@ jobs:
           cache: poetry
 
       - name: Install dependencies
-        run: poetry install --verbose --only=dev
+        run: poetry install --only=dev --verbose
 
       - name: Cache pre-commit
         uses: actions/cache@v3

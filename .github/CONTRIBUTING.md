@@ -9,13 +9,18 @@ To contribute, please follow these steps:
     ```shell
     # install pipx
     python3 -m pip install --user pipx
-    python3 -m pipx ensurepath
+    pipx ensurepath
 
-    # install poetry
+    # install poetry + plugins
     pipx install poetry
+    pipx inject poetry poetry-plugin-up
+    pipx inject poetry poetry-dynamic-versioning
 
     # install project dependencies
     poetry install
+
+    # bump dependencies to the latest
+    poetry up --latest
 
     # do test build
     poetry build
