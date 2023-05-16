@@ -21,12 +21,12 @@ repos:
       - id: check-case-conflict
       - id: check-toml
       - id: check-json
-        exclude: ".vscode/.*"
+        exclude: ".vscode/"
       - id: pretty-format-json
         args:
           - "--autofix"
           - "--no-sort-keys"
-        exclude: ".vscode/.*"
+        exclude: ".vscode/"
       - id: end-of-file-fixer
       - id: no-commit-to-branch
       - id: check-executables-have-shebangs

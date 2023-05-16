@@ -5,7 +5,6 @@ on:
     branches:
       - main
     paths:
-      - '*.py'
       - '**/*.py'
       - 'poetry.lock'
       - 'poetry.toml'
@@ -21,7 +20,6 @@ on:
     branches:
       - main
     paths:
-      - '*.py'
       - '**/*.py'
       - 'poetry.lock'
       - 'poetry.toml'
@@ -54,7 +52,6 @@ jobs:
       - name: Install Poetry
         run: |
           pipx install poetry
-          pipx ensurepath
           pipx inject poetry poetry-plugin-up
           pipx inject poetry poetry-dynamic-versioning
 
