@@ -161,7 +161,7 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
 
         if not self.config.silent:
             log.info("found %s unused assets", str(len(self.asset_files)))
-            log.info(self.asset_files)
+            log.debug(self.asset_files)
 
         if not self.config.dry_run:
             delete_count = 0
