@@ -1,25 +1,12 @@
-from setuptools import setup
+# Installation using setup.py is no longer supported.
 
-from pathlib import Path
-this_directory = Path(__file__).parent
+import sys
 
+from setuptools import setup  # type: ignore
+
+sys.exit(__doc__)
+
+# Fake reference so GitHub still considers it a real package for statistics purposes.
 setup(
-    name='mkdocs-exclude-unused-files',
-    version='1.1.0',
-    packages=['mkdocs_exclude_unused_files'],
-    url='https://github.com/JonasDoesThings/mkdocs-exclude-unused-files',
-    license='MIT',
-    author='Jonas Lorenz <jonas@jonasdoesthings.com>',
-    author_email='jonas@jonasdoesthings.com',
-    description='A mkdocs plugin that excludes assets that are unused (orphaned) from being included in the final mkdocs output.',
-    long_description=(this_directory / "README.md").read_text(),
-    long_description_content_type='text/markdown',
-    keywords=['mkdocs', 'mkdocs-plugin'],
-    install_requires=['mkdocs', 'beautifulsoup4'],
-
-    entry_points={
-        'mkdocs.plugins': [
-            'mkdocs_exclude_unused_files = mkdocs_exclude_unused_files.plugin:ExcludeUnusedFilesPlugin',
-        ]
-    },
+    name="mkdocs-exclude-unused-files",
 )

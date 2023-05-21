@@ -1,0 +1,9 @@
+INHERIT: mkdocs.base.yml
+
+plugins:
+  - search
+  - exclude-unused-files:
+      file_types_to_check: ["yml","yaml"]
+      file_types_override_mode: append
+      folders_to_never_remove_from: []
+      enabled: !ENV [CI, false]
