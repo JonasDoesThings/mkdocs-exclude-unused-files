@@ -147,7 +147,7 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
         for tag, attr in html_tags.items():
             for file in soup.find_all(tag, {attr: True}):
                 path_check = path.join(path.dirname(page.file.abs_dest_path), unquote(file[attr]))
-                if path.exists(path_check):
+                if path.exists(Path(path_check).resolve()):
                     discarded_path = str(Path(path_check).resolve())
                     log.debug("discarded path: %s", discarded_path)
                     self.asset_files.discard(discarded_path)
