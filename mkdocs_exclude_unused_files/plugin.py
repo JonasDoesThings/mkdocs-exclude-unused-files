@@ -149,7 +149,8 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
             for file in soup.find_all(tag, {attr: True}):
                 path_check = path.join(path.dirname(page.file.abs_dest_path), unquote(file[attr]))
                 for suffix in self.config.file_name_suffixes_to_trim:
-                    path_check = path_check.removesuffix(suffix)
+                    if path_check.endswith(suffix):
+                        path_check = path_check[:-len(suffix)]
 
                 if path.exists(Path(path_check).resolve()):
                     discarded_path = str(Path(path_check).resolve())
