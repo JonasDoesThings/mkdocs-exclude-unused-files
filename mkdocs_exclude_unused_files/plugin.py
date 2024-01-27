@@ -147,10 +147,13 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
 
         for tag, attr in html_tags.items():
             for file in soup.find_all(tag, {attr: True}):
+                if unquote(file[attr]).startswith(("http://", "https://")):
+                    continue
+
                 path_check = path.join(path.dirname(page.file.abs_dest_path), unquote(file[attr]))
                 for suffix in self.config.file_name_suffixes_to_trim:
                     if path_check.endswith(suffix):
-                        path_check = path_check[:-len(suffix)]
+                        path_check = path_check[: -len(suffix)]
 
                 if path.exists(Path(path_check).resolve()):
                     discarded_path = str(Path(path_check).resolve())
