@@ -14,7 +14,7 @@ repos:
         # files: .pre-commit-config.yaml
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-symlinks
       - id: trailing-whitespace
@@ -33,7 +33,7 @@ repos:
       - id: check-vcs-permalinks
 
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.16.3
+    rev: v8.18.1
     hooks:
       - id: gitleaks
 
