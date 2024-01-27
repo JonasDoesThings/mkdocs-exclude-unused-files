@@ -23,19 +23,19 @@ exclude-unused-files = "mkdocs_exclude_unused_files.plugin:ExcludeUnusedFilesPlu
 
 [tool.poetry.dependencies]
 python = ">=3.8.1,<4.0"
-mkdocs = "^1.4.3"
-beautifulsoup4 = "^4.12.2"
+mkdocs = "^1.5.3"
+beautifulsoup4 = "^4.12.3"
 
 [tool.poetry.group.dev.dependencies]
-pyupgrade = "^3.4.0"
-mypy = "^1.3.0"
-black = "^23.3.0"
+pyupgrade = "^3.15.0"
+mypy = "^1.8.0"
+black = "^24.1.0"
 pre-commit = "^3.3.1"
-isort = "^5.12.0"
-flake8 = "^6.0.0"
-bandit = "^1.7.5"
-types-beautifulsoup4 = "^4.12.0.5"
-mkdocs-material = "^9.1.13"
+isort = "^5.13.2"
+flake8 = "^7.0.0"
+bandit = "^1.7.7"
+types-beautifulsoup4 = "^4.12.0.20240106"
+mkdocs-material = "^9.5.5"
 
 [tool.poetry.plugins."poetry-plugin-up"]
 # https://github.com/MousaZeidBaker/poetry-plugin-up#usage
