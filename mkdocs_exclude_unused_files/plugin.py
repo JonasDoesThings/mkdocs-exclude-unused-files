@@ -28,6 +28,7 @@ class ExcludeUnusedFilesPluginConfig(mkdocs.config.base.Config):
     )
     file_names_to_never_remove = mkdocs.config.config_options.Type(list, default=["favicon"])
     folders_to_never_remove_from = mkdocs.config.config_options.Type(list, default=["assets"])
+    file_name_suffixes_to_trim = mkdocs.config.config_options.Type(list, default=["#only-light", "#only-dark"])
 
 
 class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
@@ -147,6 +148,9 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
         for tag, attr in html_tags.items():
             for file in soup.find_all(tag, {attr: True}):
                 path_check = path.join(path.dirname(page.file.abs_dest_path), unquote(file[attr]))
+                for suffix in self.config.file_name_suffixes_to_trim:
+                    path_check = path_check.removesuffix(suffix)
+
                 if path.exists(Path(path_check).resolve()):
                     discarded_path = str(Path(path_check).resolve())
                     log.debug("discarded path: %s", discarded_path)
