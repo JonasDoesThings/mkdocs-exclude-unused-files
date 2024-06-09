@@ -27,6 +27,13 @@ To contribute, please follow these steps:
     ```
 
 1. Make your changes
+1. Test your changes in the test directory
+
+    ```shell
+    cd test/fixtures
+    pip install ../.. && mkdocs build --verbose
+    ```
+
 1. Lint and validate your code
 
     ```shell

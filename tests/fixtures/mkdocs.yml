@@ -3,4 +3,4 @@ INHERIT: mkdocs.base.yml
 plugins:
   - search
   - exclude-unused-files:
-      enabled: !ENV [CI, false]
+      enabled: true
