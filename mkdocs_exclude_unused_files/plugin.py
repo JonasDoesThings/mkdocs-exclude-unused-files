@@ -74,7 +74,9 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
 
     @mkdocs.plugins.event_priority(-100)
     def on_startup(self, *, command, dirty) -> None:
+        self.mkdocs_command = command
         self.is_enabled = self.config.enabled
+
         if not self.is_enabled:
             log.debug("exclude-unused-files plugin disabled")
             return
@@ -161,6 +163,12 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
                     discarded_path = str(Path(path_check).resolve())
                     log.debug("discarded path: %s", discarded_path)
                     self.asset_files.discard(discarded_path)
+
+                    # fix a problem on MacOS where discarding does not work correctly due to
+                    # virtual temp-files path being different from the actually used one
+                    if self.mkdocs_command == "serve" and discarded_path.startswith("/private/"):
+                        self.asset_files.discard(discarded_path[len("/private") :])
+                        log.debug("discarded path: %s", discarded_path[len("/private") :])
 
         return output
 
