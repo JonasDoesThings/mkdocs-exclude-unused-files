@@ -73,18 +73,17 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
 
     @mkdocs.plugins.event_priority(-100)
     def on_startup(self, *, command, dirty) -> None:
-        if not self.config.enabled:
+        self.is_enabled = self.config.enabled
+        if not self.is_enabled:
             log.debug("exclude-unused-files plugin disabled")
             return
         # Disable plugin when the documentation is served, i.e., "mkdocs serve" is used
         if command == "serve" and not self.config.enabled_on_serve:
             log.debug("exclude-unused-files plugin disabled while MkDocs is running in 'serve' mode.")
-            self.disabled_by_serve = True
+            self.is_enabled = False
             return
-        else:
-            self.disabled_by_serve = False
 
-        if self.config.enabled:
+        if self.is_enabled:
             if self.config.file_types_override_mode == "append" and self.config.file_types_to_check != []:
                 log.debug("extending default file_types_to_check: %s", ", ".join(self.config.file_types_to_check))
                 self.file_types_to_check.extend(self.config.file_types_to_check)
@@ -101,7 +100,7 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
 
     @mkdocs.plugins.event_priority(-100)
     def on_files(self, files: Files, config: MkDocsConfig) -> Optional[Files]:
-        if not self.config.enabled or self.disabled_by_serve:
+        if not self.is_enabled:
             log.debug("exclude-unused-files plugin disabled")
             return None
 
@@ -127,7 +126,7 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
 
     @mkdocs.plugins.event_priority(-100)
     def on_post_page(self, output: str, page: Page, config: MkDocsConfig) -> Optional[str]:
-        if not self.config.enabled or self.disabled_by_serve:
+        if not self.is_enabled:
             log.debug("exclude-unused-files plugin disabled")
             return None
 
@@ -165,7 +164,7 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
         return output
 
     def on_post_build(self, config: MkDocsConfig) -> None:
-        if not self.config.enabled or self.disabled_by_serve:
+        if not self.is_enabled:
             log.debug("exclude-unused-files plugin disabled")
             return None
 
