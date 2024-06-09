@@ -30,6 +30,7 @@ class ExcludeUnusedFilesPluginConfig(mkdocs.config.base.Config):
     folders_to_never_remove_from = mkdocs.config.config_options.Type(list, default=["assets"])
     file_name_suffixes_to_trim = mkdocs.config.config_options.Type(list, default=["#only-light", "#only-dark"])
 
+
 class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
     asset_files: Set[str] = set()
     file_types_to_check = [
