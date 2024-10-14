@@ -73,18 +73,23 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
     ]
 
     @mkdocs.plugins.event_priority(-100)
-    def on_startup(self, *, command, dirty) -> None:
-        self.mkdocs_command = command
-        self.is_enabled = self.config.enabled
+    def on_startup(self, command, dirty) -> None:
+        self.mkdocs_command: str = command
 
+    @mkdocs.plugins.event_priority(-100)
+    def on_config(self, config: MkDocsConfig) -> MkDocsConfig:
+        self.is_enabled: bool = self.config.enabled
+
+        # Early exit if plugin is not enabled
         if not self.is_enabled:
             log.debug("exclude-unused-files plugin disabled")
-            return
+            return config
+
         # Disable plugin when the documentation is served, i.e., "mkdocs serve" is used
-        if command == "serve" and not self.config.enabled_on_serve:
+        if self.mkdocs_command == "serve" and not self.config.enabled_on_serve:
             log.debug("exclude-unused-files plugin disabled while MkDocs is running in 'serve' mode.")
             self.is_enabled = False
-            return
+            return config
 
         if self.is_enabled:
             if self.config.file_types_override_mode == "append" and self.config.file_types_to_check != []:
@@ -100,6 +105,8 @@ class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
 
             self.file_types_to_check = [*set(self.file_types_to_check)]
             log.debug("final file_types_to_check: %s", ", ".join(self.file_types_to_check))
+
+        return config
 
     @mkdocs.plugins.event_priority(-100)
     def on_files(self, files: Files, config: MkDocsConfig) -> Optional[Files]:
