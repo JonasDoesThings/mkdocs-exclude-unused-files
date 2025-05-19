@@ -15,6 +15,45 @@ from mkdocs.structure.pages import Page
 
 log = logging.getLogger(f"mkdocs.plugins.{__name__}")
 
+DEFAULT_FILES_TO_CHECK: list[str] = [
+    "png",
+    "jpg",
+    "jpeg",
+    "gif",
+    "pdf",
+    "ico",
+    "drawio",
+    "tif",
+    "tiff",
+    "zip",
+    "rar",
+    "tar.gz",
+    "ogg",
+    "mp3",
+    "mp4",
+    "vtt ",
+    "ogv",
+    "mov",
+    "svg",
+    "pot",
+    "potx",
+    "ppsx",
+    "ppt",
+    "pptx",
+    "xlt",
+    "xltx",
+    "xls",
+    "xlsx",
+    "doc",
+    "docx",
+    "dot",
+    "dotx",
+    "vst",
+    "vstx",
+    "vsd",
+    "vsdx",
+]
+
 
 class ExcludeUnusedFilesPluginConfig(mkdocs.config.base.Config):
     enabled = mkdocs.config.config_options.Type(bool, default=True)
@@ -32,45 +71,9 @@ class ExcludeUnusedFilesPluginConfig(mkdocs.config.base.Config):
 
 
 class ExcludeUnusedFilesPlugin(BasePlugin[ExcludeUnusedFilesPluginConfig]):
-    asset_files: Set[str] = set()
-    file_types_to_check = [
-        "png",
-        "jpg",
-        "jpeg",
-        "gif",
-        "pdf",
-        "ico",
-        "drawio",
-        "tif",
-        "tiff",
-        "zip",
-        "rar",
-        "tar.gz",
-        "ogg",
-        "mp3",
-        "mp4",
-        "vtt ",
-        "ogv",
-        "mov",
-        "svg",
-        "pot",
-        "potx",
-        "ppsx",
-        "ppt",
-        "pptx",
-        "xlt",
-        "xltx",
-        "xls",
-        "xlsx",
-        "doc",
-        "docx",
-        "dot",
-        "dotx",
-        "vst",
-        "vstx",
-        "vsd",
-        "vsdx",
-    ]
+    def __init__(self):
+        self.asset_files: Set[str] = set()
+        self.file_types_to_check: list[str] = DEFAULT_FILES_TO_CHECK
 
     @mkdocs.plugins.event_priority(-100)
     def on_startup(self, command, dirty) -> None:
