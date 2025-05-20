@@ -37,7 +37,7 @@ bandit = "^1.7.7"
 types-beautifulsoup4 = "^4.12.0.20240106"
 mkdocs-material = "^9.5.5"
 
-[tool.poetry.plugins."poetry-plugin-up"]
+# [tool.poetry.plugins."poetry-plugin-up"]
 # https://github.com/MousaZeidBaker/poetry-plugin-up#usage
 
 [tool.poetry-dynamic-versioning]
