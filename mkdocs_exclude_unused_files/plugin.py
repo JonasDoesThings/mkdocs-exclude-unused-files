@@ -2,7 +2,7 @@ import logging
 import os
 from os import path
 from pathlib import Path
-from typing import Optional, Set, List
+from typing import List, Optional, Set
 from urllib.parse import unquote
 
 import mkdocs.config
