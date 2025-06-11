@@ -2,7 +2,7 @@ import logging
 import os
 from os import path
 from pathlib import Path
-from typing import Optional, Set
+from typing import Optional, Set, List
 from urllib.parse import unquote
 
 import mkdocs.config
@@ -15,7 +15,7 @@ from mkdocs.structure.pages import Page
 
 log = logging.getLogger(f"mkdocs.plugins.{__name__}")
 
-DEFAULT_FILES_TO_CHECK: list[str] = [
+DEFAULT_FILES_TO_CHECK: List[str] = [
     "png",
     "jpg",
     "jpeg",
